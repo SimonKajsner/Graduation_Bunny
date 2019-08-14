@@ -3,8 +3,7 @@
 ## A program that creates a linked list of bunny objects. 
 
 Bunny data:
-Sex: Male, Female (random at creation 50/50)
-
+Sex: Male, Female (random at creation 50/50)        <br />
 color: white, brown, black, spotted
 
 age : 0-10 (years old)
