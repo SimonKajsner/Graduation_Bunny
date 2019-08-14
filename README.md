@@ -4,13 +4,10 @@
 
 Bunny data:
 Sex: Male, Female (random at creation 50/50)        <br />
-color: white, brown, black, spotted
-
-age : 0-10 (years old)
-
-Name : randomly chosen at creation from a list of bunny names
-
-radioactive_mutant_vampire_bunny: true/false (decided at time of bunny creation 2% chance of true)
+color: white, brown, black, spotted                 <br />
+age : 0-10 (years old)                              <br />
+Name : randomly chosen at creation from a list of bunny names                                           <br />
+radioactive_mutant_vampire_bunny: true/false (decided at time of bunny creation 2% chance of true)      <br />
 
 At program initialization 5 bunnies must be created and given random colors.
 Each turn afterwards the bunnies age 1 year.
