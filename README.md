@@ -1,6 +1,6 @@
 # Graduation_Bunny
 
-A program that creates a linked list of bunny objects.
+## A program that creates a linked list of bunny objects. 
 Bunny data:
 Sex: Male, Female (random at creation 50/50)
 color: white, brown, black, spotted
