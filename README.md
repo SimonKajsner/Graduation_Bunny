@@ -1,11 +1,16 @@
 # Graduation_Bunny
 
 ## A program that creates a linked list of bunny objects. 
+
 Bunny data:
 Sex: Male, Female (random at creation 50/50)
+
 color: white, brown, black, spotted
+
 age : 0-10 (years old)
+
 Name : randomly chosen at creation from a list of bunny names
+
 radioactive_mutant_vampire_bunny: true/false (decided at time of bunny creation 2% chance of true)
 
 At program initialization 5 bunnies must be created and given random colors.
