@@ -69,15 +69,19 @@ void umiranjeZajcev(zajec** head_ref, zajec* n){
     while(n != nullptr){
         if (n->leta >= 10 && n->radioaktiven_mutant_vampir == 0) {
 
-            n = n->next;
+            cout << "Zajec " << n->ime << " je umrl zaradi starosti. " << endl;
             deleteNode(head_ref, indeks);
             indeks--;
+            n = n->next;
+
         }
         else if (n->leta >= 50 && n->radioaktiven_mutant_vampir == 1) {
 
-            n = n->next;
+            cout << "Zajec " << n->ime << " je umrl zaradi starosti. " << endl;
             deleteNode(head_ref, indeks);
             indeks--;
+            n = n->next;
+
         }
         else {
             n = n->next;
@@ -125,7 +129,7 @@ void okuzba(zajec* n){
         }
         else if (n->radioaktiven_mutant_vampir == 0) {
             n->radioaktiven_mutant_vampir = 1;      //okuzimo zajca
-            cout << n->ime << " je okuzen " << endl;
+            cout << n->ime << " je okuzen. " << endl;
             stOkuzb--;                                //zmanjsamo st. potrebnih okuzb.
             n = n->next;                            //  se premaknemo naprej po linked list-u
         }
@@ -175,6 +179,8 @@ void append(zajec** head_ref, string barvaMame ) {
         new_node->barva = barvaMame;
     }
 
+    //Objava
+    cout << "Zajec " << new_node->ime << " je skoten. " << endl;
 
     /* 3. This new node is going to be
     the last node, so make next of
