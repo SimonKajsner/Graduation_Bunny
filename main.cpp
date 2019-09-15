@@ -3,7 +3,7 @@
 using namespace std; 			// names for objects (like cout-->output, print text)
 #include <time.h>       /* time */
 #include <stdlib.h>     /* srand, rand */
-
+#include <fstream>
 
 #include "zajec.h"
 
@@ -63,6 +63,9 @@ int main(int argc, char *argv[])
     // Inicializacija random semena
     srand (uint( time(nullptr) ) );
 
+    //Ustvarimo zunanjo belezko za porocilo dogodkov
+    ofstream izhodnjePorocilo("..\\porocilo.txt");
+
     /* Ustvarimo prazen seznam */
     zajec* head = nullptr;
 
@@ -89,8 +92,12 @@ int main(int argc, char *argv[])
         cout << endl;
     }
 
+    izhodnjePorocilo << "Writing this to a file.\n";
 
-    return a.exec();
+    //Zapremo belezko
+    izhodnjePorocilo.close();
+
+    return 0;
 }
 
 

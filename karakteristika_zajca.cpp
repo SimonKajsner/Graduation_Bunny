@@ -97,7 +97,7 @@ string randBarva(){
                 barva = "mesano";
             break;
             default:
-                barva = "! rand za nakljucno barvo je pobezlal !";
+                barva = "! rand za nakljucno barvo je usel!";
         }
     return  barva;
 }

@@ -1,6 +1,6 @@
 #include "zajec.h"
 #include <iostream>  			// input/output library
-using namespace std; 			// names for objects (like cout-->output, print text)
+
 
 
 //Dekleracija funkcij za lastnosti
@@ -9,7 +9,7 @@ string generatorImena(string spol);
 bool rmv();
 string randBarva();
 
-//Dekleracija funkcij (funkcija klice drugo funkcijo)
+//Dekleracija funkcij za urejeni seznam
 void append(zajec** head_ref, string barvaMame = "brez");
 void deleteNode(zajec **head_ref, int position);
 
@@ -164,42 +164,40 @@ void pomanjkanjeHrane(zajec **head_ref, zajec* n){
 }
 
 
-/* Given a reference (pointer to pointer) to the head
-of a list and an int, appends a new node at the end */
+// (pointer to pointer) Usmerimo na zacetek seznama
+// Na konec seznama dodamo nov "node"
 void append(zajec** head_ref, string barvaMame ) {
-    /* 1. allocate node */
+    // 1. Ustvarimo nov "node"
     zajec* new_node = new zajec();
 
-    zajec* last = *head_ref;     /* used in step 5*/
+    zajec* last = *head_ref;
 
-    /* 2. put in the data */
+    // 2. Podatki
     //pride v upostev za otroke zajkl, ki morajo imeti enako barvo kozuha
-    //
     if (barvaMame != "brez") {
         new_node->barva = barvaMame;
     }
 
     //Objava
-    cout << "Zajec " << new_node->ime << " je skoten. " << endl;
+    cout << "Zajec " << new_node->ime << " je rojen/a. " << endl;
 
-    /* 3. This new node is going to be
-    the last node, so make next of
-    it as NULL*/
+    // 3. Novi node bo zadnji v seznamu
+    // Torej next pointer inicializiramo s nullptr
     new_node->next = nullptr;
 
-    /* 4. If the Linked List is empty,
-    then make the new node as head */
+    // 4. Ce je urejen seznam prazen
+    // Novi vozel postane glava
     if (*head_ref == nullptr)
     {
         *head_ref = new_node; // Change value to an adress of new_node
         return;
     }
 
-    /* 5. Else traverse till the last node */
+    // 5. Drugace se sprehodimo po seznamu do konca
     while (last->next != nullptr)
         last = last->next;
 
-    /* 6. Change the next of last node */
+    // 6. Postavimo zadnji vozel, da kaze na novonastalega
     last->next = new_node;
     return;
 }
@@ -220,8 +218,8 @@ void printList(zajec* n){
     }
 }
 
-// This function counts nodes in linked list
-// starting from the given node
+// Prestejemo stevilo vozlov v urejenem seznamu
+// zacnemo od podanega vozla naprej
 int countList(zajec* n){
     int i = 0;
     while(n != nullptr){
@@ -232,8 +230,8 @@ int countList(zajec* n){
 }
 
 
-/* Given a reference (pointer to pointer) to the head of a list
-   and a position, deletes the node at the given position */
+// (pointer to pointer) --> postavimo na zacetek seznama
+//   Zbrisemo vozel, ki ga specificiramo z indeksom
 void deleteNode(zajec **head_ref, int position) {
    // If linked list is empty
    if (*head_ref == nullptr)
@@ -250,11 +248,11 @@ void deleteNode(zajec **head_ref, int position) {
         return;
     }
 
-    // Find previous node of the node to be deleted
+    // Poiscemo predhodnji vozel od vozla ki ga bomo zbrisali
     for (int i=0; temp!=nullptr && i<position-1; i++)
          temp = temp->next;
 
-    // If position is more than number of ndoes
+    // Ce je pozicija vec kot je stevilo vozlov
     if (temp == nullptr || temp->next == nullptr)
          return;
 
