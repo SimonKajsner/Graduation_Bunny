@@ -1,5 +1,6 @@
 #include "zajec.h"
 #include <iostream>  			// input/output library
+#include <fstream>
 
 
 
@@ -64,23 +65,29 @@ void parjenjeZajcev(zajec** head_ref, zajec* n){
 //Ubijanje zajcev (zdrav zajec - 10 let, mutant - 50 let)
 void umiranjeZajcev(zajec** head_ref, zajec* n){
 
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out | ios::app);
+
     int indeks = 0;
     //zanka gre skozi cel seznam
     while(n != nullptr){
         if (n->leta >= 10 && n->radioaktiven_mutant_vampir == 0) {
 
-            cout << "Zajec " << n->ime << " je umrl zaradi starosti. " << endl;
+            cout << "Zajec/kla " << n->ime << " je umrl/a zaradi starosti. " << endl;
+            outPorocilo << "Zajec/kla " << n->ime << " je umrl/a zaradi starosti. " << endl;
+            n = n->next;
             deleteNode(head_ref, indeks);
             indeks--;
-            n = n->next;
+            //n = n->next;        //debug mode error???
 
         }
         else if (n->leta >= 50 && n->radioaktiven_mutant_vampir == 1) {
 
-            cout << "Zajec " << n->ime << " je umrl zaradi starosti. " << endl;
+            cout << "RMV Zajec/kla " << n->ime << " je umrl/a zaradi starosti. " << endl;
+            outPorocilo << "RMV Zajec/kla " << n->ime << " je umrl/a zaradi starosti. " << endl;
             deleteNode(head_ref, indeks);
-            indeks--;
             n = n->next;
+            indeks--;
 
         }
         else {
@@ -90,59 +97,68 @@ void umiranjeZajcev(zajec** head_ref, zajec* n){
         indeks++;
     }
 
-
 }
 
 //Okuzba zajcev
 // vsak radioaktiven_mutant_vampir zajec okuzi enega zdrava zajca vsak krog
 // mesto okuzbe je nakljucno, nato pa se premikam po linked listu, dokler nisem okuzil potrebno stevilo zajcev
+// #####[opomba]###### lahko bi naredil nakljucno okuzbo za vsakega zajca
 void okuzba(zajec* n){
+
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out | ios::app);
 
     int rmvSt = 0;          // okuzeni zajci
     int zajciSk = 0;        // vsi zajci
+    //int okuzba = 0;         // zastavica ko okuzimo zajca
     zajec* kopijaN = n;     //kopija zacetnega n
 
     //zanka gre skozi cel seznam in presteje stevilo rmv zajcev in vseh zajcev
-    while(n != nullptr){
-        zajciSk++;
-        if (n->radioaktiven_mutant_vampir == 1) {
-            rmvSt++;
+        while(n != nullptr){
+            zajciSk++;
+            if (n->radioaktiven_mutant_vampir == 1) {
+                rmvSt++;
+            }
+            n = n->next;
         }
-        n = n->next;
-    }
-    n = kopijaN;
-    //nakljucno stevilo od 0 - stevilo zajcev
-    int randSt =  rand() % zajciSk;
-    //cout << "nakjucno stevilo je bilo: " << randSt << endl;
-    //se premaknemo po linked list-u za nakljucno stevilo
-    for (int i = 0; i != randSt; i++ ){
-        n = n->next;
-    }
-    //dolocimo koliko zajcev moramo okuziti
-    // a) okuzimo toliko zdravih kot je ze okuzenih zajcev (velja ko je zdravih vec kot okuzenih)
-    // b) ko je okuzenih zajcev vec kot bolanih, moramo okuziti se preostale zdrave zajce
-    int stOkuzb = ((zajciSk - rmvSt) > rmvSt )? rmvSt: (zajciSk - rmvSt);
-    while (stOkuzb > 0 ){
+        n = kopijaN;
+        //nakljucno stevilo od 0 - stevilo zajcev
+        int randSt =  rand() % zajciSk;
+        //cout << "nakjucno stevilo je bilo: " << randSt << endl;
+        //se premaknemo po linked list-u za nakljucno stevilo
+        for (int i = 0; i != randSt; i++ ){
+            n = n->next;
+        }
+        //dolocimo koliko zajcev moramo okuziti
+        // a) okuzimo toliko zdravih kot je ze okuzenih zajcev (velja ko je zdravih vec kot okuzenih)
+        // b) ko je okuzenih zajcev vec kot bolanih, moramo okuziti se preostale zdrave zajce
+        int stOkuzb = ((zajciSk - rmvSt) > rmvSt )? rmvSt: (zajciSk - rmvSt);
+        while (stOkuzb > 0 ){
 
-        if (n == nullptr){
-             n = kopijaN;
-        }
-        else if (n->radioaktiven_mutant_vampir == 0) {
-            n->radioaktiven_mutant_vampir = 1;      //okuzimo zajca
-            cout << n->ime << " je okuzen. " << endl;
-            stOkuzb--;                                //zmanjsamo st. potrebnih okuzb.
-            n = n->next;                            //  se premaknemo naprej po linked list-u
-        }
-        else if (n->radioaktiven_mutant_vampir == 1) {
-            n = n->next;                            //ce je zajec ze okuzen, se premaknemo po linked listu
+            if (n == nullptr){
+                 n = kopijaN;
+            }
+            else if (n->radioaktiven_mutant_vampir == 0) {
+                n->radioaktiven_mutant_vampir = 1;      //okuzimo zajca
+                cout << n->ime << " je okuzen. " << endl;
+                outPorocilo << n->ime << " je okuzen. " << endl;
+                stOkuzb--;                                //zmanjsamo st. potrebnih okuzb.
+                n = n->next;                            //  se premaknemo naprej po linked list-u
+            }
+            else if (n->radioaktiven_mutant_vampir == 1) {
+                n = n->next;                            //ce je zajec ze okuzen, se premaknemo po linked listu
 
+            }
         }
     }
-}
 
 
 // Ko je zajcev vec kot 1000, nakljucno umre polovica populacije
 void pomanjkanjeHrane(zajec **head_ref, zajec* n){
+
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out | ios::app);
+
     int stZajcev = 0;
     //prestejemo
     while(n != nullptr){
@@ -150,8 +166,9 @@ void pomanjkanjeHrane(zajec **head_ref, zajec* n){
         n = n->next;
     }
     int stOdstrel = stZajcev/2;
-    if (stZajcev >= 10){
-
+    if (stZajcev >= 1000){
+        cout << "Pomanjkanje hrane!!" << endl;
+        outPorocilo << "Pomanjkanje hrane!!" << endl;
         while(stOdstrel > 0){
             int indeks = rand() % stZajcev;
             //cout << "indeks za odstrel: " << indeks << endl;
@@ -167,6 +184,10 @@ void pomanjkanjeHrane(zajec **head_ref, zajec* n){
 // (pointer to pointer) Usmerimo na zacetek seznama
 // Na konec seznama dodamo nov "node"
 void append(zajec** head_ref, string barvaMame ) {
+
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out | ios::app);
+
     // 1. Ustvarimo nov "node"
     zajec* new_node = new zajec();
 
@@ -179,7 +200,15 @@ void append(zajec** head_ref, string barvaMame ) {
     }
 
     //Objava
-    cout << "Zajec " << new_node->ime << " je rojen/a. " << endl;
+    if(new_node->radioaktiven_mutant_vampir){
+        cout << "RMV zajec " << new_node->ime << " je rojen/a. " << endl;
+        outPorocilo << "RMV zajec " << new_node->ime << " je rojen/a. " << endl;
+    }
+    else {
+        cout << "Zajec " << new_node->ime << " je rojen/a. " << endl;
+        outPorocilo << "Zajec " << new_node->ime << " je rojen/a. " << endl;
+    }
+
 
     // 3. Novi node bo zadnji v seznamu
     // Torej next pointer inicializiramo s nullptr
@@ -199,23 +228,40 @@ void append(zajec** head_ref, string barvaMame ) {
 
     // 6. Postavimo zadnji vozel, da kaze na novonastalega
     last->next = new_node;
+
     return;
 }
 
 
 
 // Funkcija izpise podatke vseh zajcev
+//#######[OPOMBA]#############################dodaj da bo urejeno po starosti!!!!!!!!!!!!!!!!!!!
 void printList(zajec* n){
 
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out | ios::app);
+
+    cout << endl << "################  podatki o letu: ################" << endl;
+    outPorocilo << endl << "################  podatki o letu: ################" << endl;
+
     while(n != nullptr){
-        cout << "Ime: " << n->ime << " " ;
-        cout << "Spol: " << n->spol << " ";
-        cout << "barva: " << n->barva << " ";
-        cout << "starost: " << n->leta << " ";
-        cout << "rmv: " << n->radioaktiven_mutant_vampir << endl;
+
+        cout << "Ime: " << n->ime << " "
+            << "Spol: " << n->spol << " "
+            << "Barva: " << n->barva << " "
+            << "Starost: " << n->leta << " "
+            << "RMV: " << n->radioaktiven_mutant_vampir << endl;
+
+        outPorocilo << "Ime: " << n->ime << " "
+            << "Spol: " << n->spol << " "
+            << "Barva: " << n->barva << " "
+            << "Starost: " << n->leta << " "
+            << "RMV: " << n->radioaktiven_mutant_vampir << endl;
 
         n = n->next;
     }
+    cout << "################  ############### ################" << endl << endl;;
+    outPorocilo << "################  ############### ################" << endl << endl;
 }
 
 // Prestejemo stevilo vozlov v urejenem seznamu

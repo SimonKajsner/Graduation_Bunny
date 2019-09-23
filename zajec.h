@@ -2,6 +2,7 @@
 #define ZAJEC_H
 #include <iostream>  			// input/output library
 using namespace std; 			// names for objects (like cout-->output, print text)
+#include <fstream>
 
 
 class zajec
@@ -13,8 +14,7 @@ public:
     string ime;
     bool radioaktiven_mutant_vampir;
 
-    zajec* next;               //Pointer za naslednjega zajca, node
-
+    zajec* next;               //Pointer za naslednjega zajca
     //constructor
     zajec();
 };

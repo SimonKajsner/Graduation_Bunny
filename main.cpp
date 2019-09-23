@@ -3,7 +3,7 @@
 using namespace std; 			// names for objects (like cout-->output, print text)
 #include <time.h>       /* time */
 #include <stdlib.h>     /* srand, rand */
-#include <fstream>
+
 
 #include "zajec.h"
 
@@ -33,8 +33,8 @@ The program should print a list of all the bunnies in the colony each turn along
 ✓   Bunny Fufu was born!
 ✓   Radioactive Mutant Vampire Bunny Darth Maul was born!
 ✓   Bunny Julius Caesar died!
-The program should write all screen output to a file.
-When all the bunnies have died the program terminates.
+✓   The program should write all screen output to a file.
+✓   When all the bunnies have died the program terminates.
 
 ✓   If the bunny population exceeds 1000 a food shortage must occur killing exactly half of the bunnies (randomly chosen)
 */
@@ -63,8 +63,11 @@ int main(int argc, char *argv[])
     // Inicializacija random semena
     srand (uint( time(nullptr) ) );
 
-    //Ustvarimo zunanjo belezko za porocilo dogodkov
-    ofstream izhodnjePorocilo("..\\porocilo.txt");
+    // Inicializiramo porocilo
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out);
+    outPorocilo << "Pufff.\n";
+    outPorocilo.close();
 
     /* Ustvarimo prazen seznam */
     zajec* head = nullptr;
@@ -73,29 +76,30 @@ int main(int argc, char *argv[])
     for(int i = 0; i < 5; i++){
         append(&head);
     }
+    postarajZajce(head);
+    printList(head);
 
+    int steviloZajcev = 10;
+    while (steviloZajcev > 0) {
 
-    for (int i = 0;i<5;i++) {
+        umiranjeZajcev(&head, head);
 
         pomanjkanjeHrane(&head, head);
 
-        umiranjeZajcev(&head, head);
+        okuzba(head);
 
         parjenjeZajcev(&head, head);
 
         postarajZajce(head);
 
-        okuzba(head);
-
-        cout << endl << "################  podatki o letu: ################" << endl;
         printList(head);
-        cout << endl;
+        steviloZajcev = countList(head);        //prestejemo stevilo zajcev
     }
 
-    izhodnjePorocilo << "Writing this to a file.\n";
-
-    //Zapremo belezko
-    izhodnjePorocilo.close();
+    cout << "Vsi zajci so umrli.\n";
+    outPorocilo.open("../porocilo.txt",ios::out | ios::ate | ios::app);
+    outPorocilo << "Vsi zajci so umrli.\n";
+    outPorocilo.close();
 
     return 0;
 }
