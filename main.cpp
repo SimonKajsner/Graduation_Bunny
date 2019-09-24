@@ -98,9 +98,9 @@ int main(int argc, char *argv[])
         steviloZajcev = countList(head);        //prestejemo stevilo zajcev
     }
 
-    cout << "Vsi zajci so umrli.\n";
+    cout << endl << "Vsi zajci so umrli.\n";
     outPorocilo.open("../porocilo.txt",ios::out | ios::ate | ios::app);
-    outPorocilo << "Vsi zajci so umrli.\n";
+    outPorocilo << endl << "Vsi zajci so umrli.\n";
     outPorocilo.close();
 
     return 0;

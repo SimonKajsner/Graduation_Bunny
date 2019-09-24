@@ -122,6 +122,10 @@ void okuzba(zajec* n){
             n = n->next;
         }
         n = kopijaN;
+        //izhod ko je stevilo zajcev == 0 (varnost SIGFPE)
+        if (zajciSk==0) {
+            return;
+        }
         //nakljucno stevilo od 0 - stevilo zajcev
         int randSt =  rand() % zajciSk;
         //cout << "nakjucno stevilo je bilo: " << randSt << endl;
@@ -270,7 +274,10 @@ void printOrderedList(zajec* n){
     outPorocilo.open("../porocilo.txt",ios::out | ios::app);
 
     zajec* kopijaN = n;     //kopija zacetnega n
-
+    //izhod iz funkcije, ko ni zajcev
+    if(n == nullptr){
+        return;
+    }
     cout << endl << "################  podatki o letu: ################" << endl;
     outPorocilo << endl << "################  podatki o letu: ################" << endl;
     for(int i = 0; i<51; i++){
