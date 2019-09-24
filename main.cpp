@@ -35,7 +35,6 @@ radioactive_mutant_vampire_bunny: true/false (decided at time of bunny creation 
 ✓   Bunny Julius Caesar died!
 ✓   The program should write all screen output to a file.
 ✓   When all the bunnies have died the program terminates.
-
 ✓   If the bunny population exceeds 1000 a food shortage must occur killing exactly half of the bunnies (randomly chosen)
 */
 

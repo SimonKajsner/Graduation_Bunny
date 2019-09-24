@@ -102,7 +102,6 @@ void umiranjeZajcev(zajec** head_ref, zajec* n){
 //Okuzba zajcev
 // vsak radioaktiven_mutant_vampir zajec okuzi enega zdrava zajca vsak krog
 // mesto okuzbe je nakljucno, nato pa se premikam po linked listu, dokler nisem okuzil potrebno stevilo zajcev
-// #####[opomba]###### lahko bi naredil nakljucno okuzbo za vsakega zajca
 void okuzba(zajec* n){
 
     std::ofstream outPorocilo;
@@ -110,7 +109,7 @@ void okuzba(zajec* n){
 
     int rmvSt = 0;          // okuzeni zajci
     int zajciSk = 0;        // vsi zajci
-    //int okuzba = 0;         // zastavica ko okuzimo zajca
+    int okuzba = 0;         // zastavica ko okuzimo zajca
     zajec* kopijaN = n;     //kopija zacetnega n
 
     //zanka gre skozi cel seznam in presteje stevilo rmv zajcev in vseh zajcev
@@ -126,32 +125,38 @@ void okuzba(zajec* n){
         if (zajciSk==0) {
             return;
         }
-        //nakljucno stevilo od 0 - stevilo zajcev
-        int randSt =  rand() % zajciSk;
-        //cout << "nakjucno stevilo je bilo: " << randSt << endl;
-        //se premaknemo po linked list-u za nakljucno stevilo
-        for (int i = 0; i != randSt; i++ ){
-            n = n->next;
-        }
+
         //dolocimo koliko zajcev moramo okuziti
         // a) okuzimo toliko zdravih kot je ze okuzenih zajcev (velja ko je zdravih vec kot okuzenih)
         // b) ko je okuzenih zajcev vec kot bolanih, moramo okuziti se preostale zdrave zajce
         int stOkuzb = ((zajciSk - rmvSt) > rmvSt )? rmvSt: (zajciSk - rmvSt);
         while (stOkuzb > 0 ){
-
-            if (n == nullptr){
-                 n = kopijaN;
+            //usmerimo na zacetek seznama
+            n = kopijaN;
+            //nakljucno stevilo od 0 - stevilo zajcev
+            int randSt =  rand() % zajciSk;
+            //cout << "nakjucno stevilo je bilo: " << randSt << endl;
+            //se premaknemo po linked list-u za nakljucno stevilo
+            for (int i = 0; i != randSt; i++ ){
+                n = n->next;
             }
-            else if (n->radioaktiven_mutant_vampir == 0) {
-                n->radioaktiven_mutant_vampir = 1;      //okuzimo zajca
-                cout << n->ime << " je okuzen/a. " << endl;
-                outPorocilo << n->ime << " je okuzen/a. " << endl;
-                stOkuzb--;                                //zmanjsamo st. potrebnih okuzb.
-                n = n->next;                            //  se premaknemo naprej po linked list-u
-            }
-            else if (n->radioaktiven_mutant_vampir == 1) {
-                n = n->next;                            //ce je zajec ze okuzen, se premaknemo po linked listu
+            okuzba=0;
+            while (okuzba==0) {
+                if (n == nullptr){
+                     n = kopijaN;
+                }
+                else if (n->radioaktiven_mutant_vampir == 0) {
+                    n->radioaktiven_mutant_vampir = 1;      //okuzimo zajca
+                    cout << n->ime << " je okuzen/a. " << endl;
+                    outPorocilo << n->ime << " je okuzen/a. " << endl;
+                    stOkuzb--;                                //zmanjsamo st. potrebnih okuzb.
+                    n = n->next;                            //  se premaknemo naprej po linked list-u
+                    okuzba = 1;
+                }
+                else if (n->radioaktiven_mutant_vampir == 1) {
+                    n = n->next;                            //ce je zajec ze okuzen, se premaknemo po linked listu
 
+                }
             }
         }
     }
@@ -239,7 +244,6 @@ void append(zajec** head_ref, string barvaMame ) {
 
 
 // Funkcija izpise podatke vseh zajcev
-//#######[OPOMBA]#############################dodaj da bo urejeno po starosti!!!!!!!!!!!!!!!!!!!
 void printList(zajec* n){
 
     std::ofstream outPorocilo;
