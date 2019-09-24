@@ -85,8 +85,8 @@ void umiranjeZajcev(zajec** head_ref, zajec* n){
 
             cout << "RMV Zajec/kla " << n->ime << " je umrl/a zaradi starosti. " << endl;
             outPorocilo << "RMV Zajec/kla " << n->ime << " je umrl/a zaradi starosti. " << endl;
-            deleteNode(head_ref, indeks);
             n = n->next;
+            deleteNode(head_ref, indeks);
             indeks--;
 
         }
@@ -140,8 +140,8 @@ void okuzba(zajec* n){
             }
             else if (n->radioaktiven_mutant_vampir == 0) {
                 n->radioaktiven_mutant_vampir = 1;      //okuzimo zajca
-                cout << n->ime << " je okuzen. " << endl;
-                outPorocilo << n->ime << " je okuzen. " << endl;
+                cout << n->ime << " je okuzen/a. " << endl;
+                outPorocilo << n->ime << " je okuzen/a. " << endl;
                 stOkuzb--;                                //zmanjsamo st. potrebnih okuzb.
                 n = n->next;                            //  se premaknemo naprej po linked list-u
             }
@@ -260,6 +260,39 @@ void printList(zajec* n){
 
         n = n->next;
     }
+    cout << "################  ############### ################" << endl << endl;;
+    outPorocilo << "################  ############### ################" << endl << endl;
+}
+//Funkcija izpise vse zajce glede na starost
+void printOrderedList(zajec* n){
+
+    std::ofstream outPorocilo;
+    outPorocilo.open("../porocilo.txt",ios::out | ios::app);
+
+    zajec* kopijaN = n;     //kopija zacetnega n
+
+    cout << endl << "################  podatki o letu: ################" << endl;
+    outPorocilo << endl << "################  podatki o letu: ################" << endl;
+    for(int i = 0; i<51; i++){
+        while(n != nullptr){
+            if(n->leta==i){
+                cout << "Ime: " << n->ime << " "
+                    << "Spol: " << n->spol << " "
+                    << "Barva: " << n->barva << " "
+                    << "Starost: " << n->leta << " "
+                    << "RMV: " << n->radioaktiven_mutant_vampir << endl;
+
+                outPorocilo << "Ime: " << n->ime << " "
+                    << "Spol: " << n->spol << " "
+                    << "Barva: " << n->barva << " "
+                    << "Starost: " << n->leta << " "
+                    << "RMV: " << n->radioaktiven_mutant_vampir << endl;
+            }
+            n = n->next;
+        }
+        n=kopijaN;
+    }
+
     cout << "################  ############### ################" << endl << endl;;
     outPorocilo << "################  ############### ################" << endl << endl;
 }

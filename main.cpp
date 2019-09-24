@@ -27,7 +27,7 @@ radioactive_mutant_vampire_bunny: true/false (decided at time of bunny creation 
 ✓   Radioactive vampire bunnies are excluded from regular breeding and do not count as adult bunnies.
 ✓   Radioactive vampire bunnies do not die until they reach age 50.
 
-The program should print a list of all the bunnies in the colony each turn along w/ all the bunnies details, sorted by age.
+✓   The program should print a list of all the bunnies in the colony each turn along w/ all the bunnies details, sorted by age.
 ✓   The program should also output each turns events such as
 ✓   "Bunny Thumper was born!
 ✓   Bunny Fufu was born!
@@ -49,6 +49,7 @@ void append(zajec** head_ref, string barvaMame = "brez");
 void printList(zajec* n);
 void deleteNode(zajec **head_ref, int position);
 int countList(zajec* n);
+void printOrderedList(zajec* n);
 void postarajZajce(zajec* n);
 void parjenjeZajcev(zajec** head_ref, zajec* n);
 void umiranjeZajcev(zajec** head_ref, zajec* n);
@@ -92,7 +93,8 @@ int main(int argc, char *argv[])
 
         postarajZajce(head);
 
-        printList(head);
+        //printList(head);
+        printOrderedList(head);
         steviloZajcev = countList(head);        //prestejemo stevilo zajcev
     }
 
